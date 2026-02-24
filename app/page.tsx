@@ -1,3 +1,7 @@
+import Image from "next/image";
+
+const PLACEHOLDER_SRC = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlMmU4ZjAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk0YTNiOCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyMCI+UExBQ0VIT0xERVI8L3RleHQ+PC9zdmc+";
+
 export default function Home() {
   return (
     <div className="bg-white text-slate-900 font-display antialiased selection:bg-primary selection:text-white">
@@ -73,8 +77,15 @@ export default function Home() {
               {/* Right Column: Hero Image */}
               <div className="md:col-span-7 lg:col-span-7 relative h-[60vh] md:h-[85vh] w-full order-1 md:order-2">
                 <div className="h-full w-full overflow-hidden rounded-t-[10rem] rounded-b-lg border border-slate-200 p-2 bg-white shadow-xl shadow-slate-200/50">
-                  <div className="h-full w-full overflow-hidden rounded-t-[9.5rem] rounded-b-sm">
-                    <img alt="High fashion portrait of a model with elegant styling" className="h-full w-full object-cover object-top transition-transform duration-1000 hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmwd0mbqdobL52t_8_335FxypB30K9keAbMLOG96RZCkK5kWdyRSKjkT-4WsjXtERHMygTR3lc-IwQJpE3ztwHfagFuy3gUqmMySjlNQGi8VTTimPgLxAKXZdGlE2fxSXgdd_QnvUI1bql9zvIG2tz7Ap-h63lOa1eJcmy1F29X7Ad6zvKTxTrTh79-io1IqyKSMRdj90lIvJcOLYjXa6zZ1t6VAJZeo_tzkssTbpzCUIkU69WT9GVE0MlTXrgO6AboGnH3HY940Q" />
+                  <div className="relative h-full w-full overflow-hidden rounded-t-[9.5rem] rounded-b-sm">
+                    <Image
+                      alt="High fashion portrait of a model with elegant styling"
+                      className="object-cover object-top transition-transform duration-1000 hover:scale-105"
+                      src={PLACEHOLDER_SRC}
+                      fill
+                      priority
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
                   </div>
                   {/* Floating Badge */}
                   <div className="absolute bottom-8 -left-5 md:-left-10 z-10 hidden md:block">
@@ -108,7 +119,13 @@ export default function Home() {
                 <div className="group cursor-pointer">
                   <div className="overflow-hidden rounded-lg mb-4 aspect-4/5 relative">
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors z-10"></div>
-                    <img alt="Fashion model walking down a runway or street in high end clothing" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3OWNiYZSUkznLQOr4dhKnsSvckxLqmumPctFoC5f1wQc2sAhhYDUmb7bIuPNB33awLVDVe4ZyfdDqa1QK9vUJMsNSF8TUPLE1kM3ONpQhDTUJCXkOsZjyx2SKR-c8OrOQuaJUxjQQaYdr8749pBAS8Bh9FStPd-4ZNtjrTo6dJiS5fhBxd0J2kEpus9Ur7EdmaBxkIqGh1XZfTUwirV-WDscFcXw16SHf0rRBj4mXMnjRGAwY4I1jli4TmW1oPLgP0rqP0geKqro" />
+                    <Image
+                      alt="Fashion model walking down a runway or street in high end clothing"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      src={PLACEHOLDER_SRC}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
                   </div>
                   <div className="flex justify-between items-start border-t border-slate-200 pt-4">
                     <div>
@@ -123,7 +140,13 @@ export default function Home() {
                 <div className="group cursor-pointer md:mt-16">
                   <div className="overflow-hidden rounded-lg mb-4 aspect-4/5 relative">
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors z-10"></div>
-                    <img alt="Close up portrait of a woman with artistic makeup" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgX1apYDXssNXwskn40XB9_DkKkhSBtlrxgQSqXpW3Kwrog0PKNUOFrXKnG76SGyRRyeKMuXpdrI3m2CRKoNkJdccc1PtL14aAAfb3GqmEINLZ0gd1EtuQJfm1qEBNUFsHXJVuoV43EHH-Jkb5c9cVT7TOYWg27LWFtQKcynQXaNA-4ULRqchYCtaFf0tZMPWLsFPI4mmu7dxwQ6F9ljD6AMgzY5EG-HEQfgQoLy-6Ub_GwgcC-PpEe5cYYKDuLw6h1DcvPdIQf08" />
+                    <Image
+                      alt="Close up portrait of a woman with artistic makeup"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      src={PLACEHOLDER_SRC}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
                   </div>
                   <div className="flex justify-between items-start border-t border-slate-200 pt-4">
                     <div>
@@ -138,7 +161,13 @@ export default function Home() {
                 <div className="group cursor-pointer">
                   <div className="overflow-hidden rounded-lg mb-4 aspect-4/5 relative">
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors z-10"></div>
-                    <img alt="Abstract product photography with geometric shapes" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDES8Gl62RcI3TJv1UxXlxeAmUc17S806SI9DjbM8bgz3EC542P-Lx86AB8vpBreVDNO3FIsbJkU71W_gWNcs99EPULa9FP6_q4qbqK4h4NWSskeUnogTGAM1_Di560EgU4sGpysOHzN13LhoFw1b9zHPkgvaYHpShb1N8REtTZOFB4q_bx0hjalb1FXe2ojnFfFLuO_Rgjj4gfgYUQ-avP3MTCZSnDq0W19k_0cs9AyLhnJsSkf21h0GxAtOftTxEV-WOWQlDQ5lQ" />
+                    <Image
+                      alt="Abstract product photography with geometric shapes"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      src={PLACEHOLDER_SRC}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
                   </div>
                   <div className="flex justify-between items-start border-t border-slate-200 pt-4">
                     <div>
