@@ -24,14 +24,37 @@ export function HeroSection() {
             <span className="material-symbols-outlined text-lg">arrow_forward</span>
           </button>
         </div>
-        <div className="flex gap-6 pt-12 md:pt-20">
-          <a className="text-slate-400 hover:text-primary transition-colors" href="https://www.instagram.com/abhikansara_photography">
-            <span className="sr-only">Instagram</span>
-            <span className="font-mono text-xs uppercase border border-slate-200 px-3 py-1 rounded-full hover:border-primary">Instagram</span>
+        <div className="flex flex-wrap gap-4 pt-12 md:pt-14">
+          {/* Instagram Button */}
+          <a
+            href="https://www.instagram.com/abhikansara_photography"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-full border border-slate-200 bg-white px-8 py-3 transition-all duration-300 hover:border-transparent hover:shadow-xl hover:shadow-purple-500/20 active:scale-95"
+          >
+            <div className="absolute inset-0 -z-10 translate-y-full bg-gradient-to-tr from-yellow-500 via-purple-500 to-blue-500 transition-transform duration-500 ease-in-out group-hover:translate-y-0"></div>
+            <span className="font-mono text-xs font-bold uppercase tracking-widest text-slate-500 transition-colors duration-300 group-hover:text-[#D62976]">
+              Instagram
+            </span>
+            <span className="material-symbols-outlined text-[16px] text-slate-400 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white">
+              arrow_outward
+            </span>
           </a>
-          <a className="text-slate-400 hover:text-primary transition-colors" href="https://www.linkedin.com/in/abhikansaraphotography">
-            <span className="sr-only">Twitter</span>
-            <span className="font-mono text-xs uppercase border border-slate-200 px-3 py-1 rounded-full hover:border-primary">LinkedIn</span>
+
+          {/* LinkedIn Button */}
+          <a
+            href="https://www.linkedin.com/in/abhikansaraphotography"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-full border border-slate-200 bg-white px-8 py-3 transition-all duration-300 hover:border-transparent hover:shadow-xl hover:shadow-blue-500/20 active:scale-95"
+          >
+            <div className="absolute inset-0 -z-10 translate-y-full bg-[#0077B5] transition-transform duration-500 ease-in-out group-hover:translate-y-0"></div>
+            <span className="font-mono text-xs font-bold uppercase tracking-widest text-slate-500 transition-colors duration-300 group-hover:text-[#0077B5]">
+              LinkedIn
+            </span>
+            <span className="material-symbols-outlined text-[16px] text-slate-400 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white">
+              arrow_outward
+            </span>
           </a>
         </div>
       </div>
