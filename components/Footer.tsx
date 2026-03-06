@@ -26,9 +26,9 @@ export function Footer() {
         <div>
           <h5 className="font-mono text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Sitemap</h5>
           <ul className="space-y-3">
-            <li><a className="font-display text-sm hover:text-slate-500 transition-colors" href="#about">About</a></li>
-            <li><a className="font-display text-sm hover:text-slate-500 transition-colors" href="#service">Service</a></li>
-            <li><a className="font-display text-sm hover:text-slate-500 transition-colors" href="#works">Work</a></li>
+            <li><a className="font-display text-sm hover:text-slate-500 transition-colors" href="/about">About</a></li>
+            <li><a className="font-display text-sm hover:text-slate-500 transition-colors" href="/#service">Service</a></li>
+            <li><a className="font-display text-sm hover:text-slate-500 transition-colors" href="/#works">Work</a></li>
           </ul>
         </div>
         <div>
