@@ -11,9 +11,9 @@ export default function AboutPage() {
           <div className="mx-auto w-full max-w-7xl px-6 md:px-12 lg:px-20">
             
             {/* Section 1: Intro */}
-            <section className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center py-12 md:py-24">
+            <section className="grid grid-cols-1 md:grid-cols-13 gap-12 lg:gap-20 items-center py-12 md:py-24">
               {/* Left: Text */}
-              <div className="order-2 md:order-1 flex flex-col gap-6">
+              <div className="order-2 md:order-1 md:col-span-7 lg:col-span-8 flex flex-col gap-6">
                 <div>
                   <h2 className="font-mono text-xs font-bold tracking-[0.2em] text-slate-500 uppercase mb-2">
                     The Photographer
@@ -42,34 +42,35 @@ export default function AboutPage() {
               </div>
               
               {/* Right: Photo */}
-              <div className="order-1 md:order-2 relative">
-                <div className="aspect-[3/4] relative rounded-2xl overflow-hidden shadow-2xl shadow-slate-200 border border-slate-100">
-                  <Image 
-                    src="/Abhi.jpeg" 
-                    alt="Portrait of Abhi Kansara"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    priority
-                  />
+              <div className="order-1 md:order-2 md:col-span-6 lg:col-span-5 relative flex justify-center">
+                <div className="relative w-full max-w-md">
+                  <div className="aspect-[3/4] relative bg-white p-4 shadow-2xl rotate-2 hover:rotate-0 transition-all duration-500 ease-out">
+                    <div className="relative w-full h-full overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
+                      <Image 
+                        src="/Abhi.jpeg" 
+                        alt="Portrait of Abhi Kansara"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        priority
+                      />
+                    </div>
+                  </div>
                 </div>
-                {/* Decorative element */}
-                <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-slate-50 rounded-full -z-10"></div>
-                <div className="absolute -top-6 -left-6 w-32 h-32 border border-slate-100 rounded-full -z-10"></div>
               </div>
             </section>
 
             {/* Section 2: Why I Do This */}
-            <section className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center py-12 md:py-24 border-t border-slate-100">
+            <section className="grid grid-cols-1 md:grid-cols-13 gap-12 lg:gap-20 items-center py-12 md:py-24 border-t border-slate-100">
               {/* Left: Photo */}
-              <div className="relative">
+              <div className="md:col-span-6 lg:col-span-5 relative">
                  <div className="aspect-[4/5] relative rounded-2xl overflow-hidden shadow-2xl shadow-slate-200 border border-slate-100">
                   <Image 
                     src="/APK000467.jpeg" 
                     alt="Photographer in action"
                     fill
                     className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
                 </div>
                  {/* Decorative element */}
@@ -77,7 +78,7 @@ export default function AboutPage() {
               </div>
 
               {/* Right: Text */}
-              <div className="flex flex-col gap-6">
+              <div className="md:col-span-7 lg:col-span-8 flex flex-col gap-6">
                 <div>
                   <h2 className="font-mono text-xs font-bold tracking-[0.2em] text-slate-500 uppercase mb-2">
                     My Philosophy
