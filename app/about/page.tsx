@@ -4,18 +4,20 @@ import Navigation from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
 import Image from "next/image";
+import BackButton from "@/components/BackButton";
 
 export default function AboutPage() {
   return (
     <main className="flex min-h-screen flex-col bg-accent-ivory text-black selection:bg-accent-gold selection:text-white">
       <Navigation />
+      <BackButton />
       
       {/* About Content */}
-      <div className="flex-1 w-full pt-32 pb-20 px-6 sm:px-12 flex flex-col items-center">
+      <div className="flex-1 w-full pt-48 pb-20 px-6 sm:px-12 flex flex-col items-center">
         <div className="max-w-6xl w-full mx-auto flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
           
           {/* Portrait Image */}
-          <AnimatedSection className="w-full lg:w-5/12 relative aspect-[4/5] overflow-hidden rounded-sm" delay={0.1}>
+          <AnimatedSection className="w-full lg:w-5/12 relative aspect-4/5 overflow-hidden rounded-sm" delay={0.1}>
             <Image
               src="/images/placeholders/work1.jpg" // Using an available placeholder as requested
               alt="Abhi Kansara - Photographer Portrait"
@@ -43,7 +45,7 @@ export default function AboutPage() {
             </div>
 
             <div className="mt-12 flex items-center gap-6">
-               <div className="w-16 h-[1px] bg-accent-gold" />
+               <div className="w-16 h-px bg-accent-gold" />
                <span className="font-serif text-2xl text-slate-900 italic">Abhi Kansara</span>
             </div>
           </AnimatedSection>

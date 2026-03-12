@@ -27,7 +27,7 @@ export default function PortfolioGrid() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
-              className="relative w-full aspect-[2/3] overflow-hidden group rounded-sm"
+              className="relative w-full aspect-2/3 overflow-hidden group rounded-sm"
             >
               <Image
                 src={project.src}

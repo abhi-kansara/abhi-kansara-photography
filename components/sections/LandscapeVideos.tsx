@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { videoSources } from "@/lib/data";
+import VideoPlayer from "@/components/VideoPlayer";
 
 export default function LandscapeVideos() {
   return (
@@ -21,16 +22,11 @@ export default function LandscapeVideos() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="w-full max-w-[1200px] aspect-[16/9] relative bg-black/50 rounded-xl overflow-hidden group shadow-2xl border border-white/10"
+          className="w-full max-w-[1200px]"
         >
-          {/* Note: Native video playback for .m3u8 is supported on Safari. For cross-browser, an HLS player library would be needed. */}
-          <video 
-              src={videoSources.landscape}
-              className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700"
-              autoPlay 
-              loop 
-              muted 
-              playsInline 
+          <VideoPlayer 
+            src={videoSources.landscape} 
+            aspectRatio="video"
           />
         </motion.div>
 

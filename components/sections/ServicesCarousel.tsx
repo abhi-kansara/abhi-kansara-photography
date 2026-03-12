@@ -1,19 +1,48 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useAnimationControls } from "framer-motion";
 import { servicesData } from "@/lib/data";
+import { useEffect, useState, useRef } from "react";
 
 export default function ServicesCarousel() {
-  // Duplicate the array to create a seamless infinite loop effect
   const duplicatedServices = [...servicesData, ...servicesData];
+  const controls = useAnimationControls();
+  const [isPaused, setIsPaused] = useState(false);
+  const pauseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const startAnimation = async () => {
+    await controls.start({
+      x: ["0%", "-50%"],
+      transition: {
+        duration: 30,
+        ease: "linear",
+        repeat: Infinity,
+      },
+    });
+  };
+
+  useEffect(() => {
+    startAnimation();
+  }, []);
+
+  const handleInteractionStart = () => {
+    setIsPaused(true);
+    controls.stop();
+    if (pauseTimeoutRef.current) clearTimeout(pauseTimeoutRef.current);
+  };
+
+  const handleInteractionEnd = () => {
+    // Resume after 3 seconds of inactivity
+    if (pauseTimeoutRef.current) clearTimeout(pauseTimeoutRef.current);
+    pauseTimeoutRef.current = setTimeout(() => {
+      setIsPaused(false);
+      startAnimation();
+    }, 3000);
+  };
 
   return (
     <section id="services" className="relative w-full bg-transparent py-20 sm:py-32 z-10 overflow-hidden">
-      {/* 
-        This section relies on the transparency rule. 
-        It has NO solid background, letting the FixedBackgroundCarousel show through the gaps.
-      */}
       <div className="max-w-7xl mx-auto px-6 sm:px-12 mb-12 flex flex-col items-start">
         <span className="text-accent-gold uppercase tracking-[0.2em] text-xs mb-4 block font-bold">Offerings</span>
         <h2 className="font-serif text-5xl sm:text-7xl font-medium text-white mix-blend-difference">
@@ -21,19 +50,18 @@ export default function ServicesCarousel() {
         </h2>
       </div>
 
-      <div className="relative w-full overflow-hidden shrink-0 flex items-center">
-        {/* Infinite auto-scroll container using Framer Motion */}
+      <div 
+        className="relative w-full overflow-hidden shrink-0 flex items-center"
+        onMouseEnter={handleInteractionStart}
+        onMouseLeave={handleInteractionEnd}
+      >
         <motion.div
           className="flex gap-4 sm:gap-8 px-4 w-max cursor-grab active:cursor-grabbing"
           drag="x"
           dragConstraints={{ left: -2000, right: 0 }}
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{
-            repeat: Infinity,
-            ease: "linear",
-            duration: 30, // Adjust for speed
-          }}
-          whileHover={{ animationPlayState: "paused" }} // Pause on hover for accessibility/viewing
+          animate={controls}
+          onDragStart={handleInteractionStart}
+          onDragEnd={handleInteractionEnd}
         >
           {duplicatedServices.map((service, index) => (
             <div 

@@ -7,7 +7,6 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { name: "Home", href: "/#home" },
   { name: "About", href: "/about" },
   { name: "Services", href: "/#services" },
 ];
@@ -57,9 +56,9 @@ export default function Navigation() {
         <Image
           alt="Abhi Kansara Photography"
           src="/Logo.png"
-          width={200}
-          height={100}
-          className="h-12 w-auto invert mix-blend-difference opacity-90"
+          width={240}
+          height={120}
+          className="h-16 w-auto invert mix-blend-difference opacity-90"
           priority
         />
       </motion.div>
@@ -76,13 +75,20 @@ export default function Navigation() {
       >
         <nav
           className={cn(
-            "pointer-events-auto flex items-center justify-between w-full max-w-4xl rounded-full px-8 py-4 transition-all duration-500",
+            "pointer-events-auto flex items-center justify-between w-full max-w-4xl rounded-full px-8 py-3 transition-all duration-500",
             "bg-[#1a1a1a]/80 backdrop-blur-md border border-white/10 shadow-2xl"
           )}
         >
-          {/* Logo (Optional inside nav, but we keep it minimal text since big logo is hidden) */}
+          {/* Logo inside nav pill */}
           <Link href="/" className="flex items-center group">
-            <span className="font-serif italic text-accent-gold text-xl tracking-wider">Abhi Kansara</span>
+               {/* <span className="font-serif italic text-accent-gold text-xl tracking-wider">Abhi Kansara</span> */}
+               <Image
+                 src="/Logo.png"
+                 alt="Logo"
+                 width={100}
+                 height={40}
+                 className="h-8 w-auto invert opacity-80 group-hover:opacity-100 transition-opacity"
+               />
           </Link>
 
           {/* Links */}
@@ -91,7 +97,7 @@ export default function Navigation() {
               <li key={link.name}>
                 <Link
                   href={link.href}
-                  className="text-xs uppercase tracking-[0.2em] font-medium text-foreground-muted hover:text-accent-ivory transition-colors duration-300"
+                  className="text-[10px] uppercase tracking-[0.25em] font-bold text-foreground-muted hover:text-accent-gold transition-colors duration-300"
                 >
                   {link.name}
                 </Link>
@@ -102,7 +108,7 @@ export default function Navigation() {
           {/* CTA */}
           <Link
             href="/contact"
-            className="px-6 py-2.5 rounded-full bg-accent-gold text-black text-xs uppercase tracking-widest font-bold hover:bg-white transition-colors duration-300"
+            className="px-6 py-2 rounded-full bg-accent-gold text-black text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white transition-colors duration-300"
           >
             Inquire
           </Link>

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { videoSources } from "@/lib/data";
+import VideoPlayer from "@/components/VideoPlayer";
 
 export default function PortraitVideos() {
   return (
@@ -18,40 +19,29 @@ export default function PortraitVideos() {
         {/* Portrait Videos Container */}
         <div className="flex flex-col md:flex-row gap-8 md:gap-16 w-full justify-center items-center">
           
-          {/* Video 1 */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="w-full max-w-[400px] aspect-[9/16] relative bg-black/50 rounded-lg overflow-hidden group shadow-2xl border border-white/10"
+            className="w-full max-w-[400px]"
           >
-            {/* Note: Native video playback for .m3u8 is supported on Safari. For cross-browser, an HLS player library would be needed. */}
-            <video 
-              src={videoSources.portraitOne}
-              className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700"
-              autoPlay 
-              loop 
-              muted 
-              playsInline 
+            <VideoPlayer 
+              src={videoSources.portraitOne} 
+              aspectRatio="portrait"
             />
           </motion.div>
 
-          {/* Video 2 */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="w-full max-w-[400px] aspect-[9/16] relative bg-black/50 rounded-lg overflow-hidden group shadow-2xl border border-white/10"
+            className="w-full max-w-[400px]"
           >
-            <video 
-              src={videoSources.portraitTwo}
-              className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700"
-              autoPlay 
-              loop 
-              muted 
-              playsInline 
+            <VideoPlayer 
+              src={videoSources.portraitTwo} 
+              aspectRatio="portrait"
             />
           </motion.div>
 
