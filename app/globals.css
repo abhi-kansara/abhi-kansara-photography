@@ -39,3 +39,13 @@ body {
   background-color: var(--accent-gold);
   color: #000;
 }
+
+/* Hide default scrollbar */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}

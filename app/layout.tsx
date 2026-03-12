@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google"; 
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+import CustomScrollbar from "@/components/CustomScrollbar";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -32,7 +33,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${cormorantGaramond.variable} antialiased`}>
-        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+        <SmoothScrollProvider>
+          <CustomScrollbar />
+          {children}
+        </SmoothScrollProvider>
       </body>
     </html>
   );

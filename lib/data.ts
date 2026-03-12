@@ -77,7 +77,7 @@ export const backgroundImages = [
 	"/images/placeholders/bg0.jpg",
 	"/images/placeholders/bg4.jpg",
 	"/images/placeholders/bg5.jpg",
-	"/images/placeholders/AK2.jpg",
+	"/images/placeholders/bg1.jpg",
 	"/images/placeholders/bg2.jpg",
 ];
 
