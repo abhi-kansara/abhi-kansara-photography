@@ -19,7 +19,7 @@ export default function AboutPage() {
           {/* Portrait Image */}
           <AnimatedSection className="w-full lg:w-5/12 relative aspect-4/5 overflow-hidden rounded-sm" delay={0.1}>
             <Image
-              src="/images/placeholders/work1.jpg" // Using an available placeholder as requested
+              src="/images/Abhi.jpg"
               alt="Abhi Kansara - Photographer Portrait"
               fill
               className="object-cover"
