@@ -11,7 +11,7 @@ export default function ContactPage() {
       <Navigation />
       <BackButton />
 
-      <div className="flex-1 w-full pt-48 pb-32 px-6 sm:px-12 flex items-center justify-center">
+      <div className="flex-1 w-full pt-56 md:pt-64 pb-32 px-6 sm:px-12 flex items-center justify-center">
         <div className="max-w-4xl w-full mx-auto">
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">

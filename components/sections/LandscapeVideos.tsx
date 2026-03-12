@@ -26,6 +26,7 @@ export default function LandscapeVideos() {
         >
           <VideoPlayer 
             src={videoSources.landscape} 
+            poster={videoSources.landscapePoster}
             aspectRatio="video"
           />
         </motion.div>

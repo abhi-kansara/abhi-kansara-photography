@@ -1,48 +1,64 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useAnimationControls } from "framer-motion";
+import { motion, useMotionValue, useAnimationFrame, useMotionValueEvent } from "framer-motion";
 import { servicesData } from "@/lib/data";
 import { useEffect, useState, useRef } from "react";
 
 export default function ServicesCarousel() {
-  const duplicatedServices = [...servicesData, ...servicesData];
-  const controls = useAnimationControls();
-  const [isPaused, setIsPaused] = useState(false);
+  const duplicatedServices = [...servicesData, ...servicesData, ...servicesData];
+  const containerRef = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const [isInteracting, setIsInteracting] = useState(false);
   const pauseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const startAnimation = async () => {
-    await controls.start({
-      x: ["0%", "-50%"],
-      transition: {
-        duration: 30,
-        ease: "linear",
-        repeat: Infinity,
-      },
-    });
-  };
+  const [singleSetWidth, setSingleSetWidth] = useState(0);
 
   useEffect(() => {
-    startAnimation();
+    const measure = () => {
+      if (containerRef.current) {
+        setSingleSetWidth(containerRef.current.scrollWidth / 3);
+      }
+    };
+
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
   }, []);
 
+  useMotionValueEvent(x, "change", (latest) => {
+    if (singleSetWidth === 0) return;
+
+    if (latest <= -singleSetWidth) {
+      x.set(latest + singleSetWidth);
+    }
+    else if (latest > 0) {
+      x.set(latest - singleSetWidth);
+    }
+  });
+
+  useAnimationFrame((t, delta) => {
+    if (isInteracting || singleSetWidth === 0) return;
+
+    // carousel speed (pixels per millisecond)
+    const speed = 0.05;
+
+    x.set(x.get() - (speed * delta));
+  });
+
   const handleInteractionStart = () => {
-    setIsPaused(true);
-    controls.stop();
+    setIsInteracting(true);
     if (pauseTimeoutRef.current) clearTimeout(pauseTimeoutRef.current);
   };
 
   const handleInteractionEnd = () => {
-    // Resume after 3 seconds of inactivity
     if (pauseTimeoutRef.current) clearTimeout(pauseTimeoutRef.current);
     pauseTimeoutRef.current = setTimeout(() => {
-      setIsPaused(false);
-      startAnimation();
-    }, 3000);
+      setIsInteracting(false);
+    }, 2000); // Resumes the engine after 2 seconds
   };
 
   return (
-    <section id="services" className="relative w-full bg-transparent py-20 sm:py-32 z-10 overflow-hidden">
+    <section id="services" className="relative w-full py-24 overflow-hidden z-10">
       <div className="max-w-7xl mx-auto px-6 sm:px-12 mb-12 flex flex-col items-start">
         <span className="text-accent-gold uppercase tracking-[0.2em] text-xs mb-4 block font-bold">Offerings</span>
         <h2 className="font-serif text-5xl sm:text-7xl font-medium text-white mix-blend-difference">
@@ -50,23 +66,25 @@ export default function ServicesCarousel() {
         </h2>
       </div>
 
-      <div 
-        className="relative w-full overflow-hidden shrink-0 flex items-center"
+      <div className="relative w-full overflow-hidden shrink-0 flex items-center"
         onMouseEnter={handleInteractionStart}
         onMouseLeave={handleInteractionEnd}
       >
         <motion.div
-          className="flex gap-4 sm:gap-8 px-4 w-max cursor-grab active:cursor-grabbing"
+          ref={containerRef}
+          style={{ x }}
+          className="flex gap-4 cursor-grab active:cursor-grabbing w-max"
           drag="x"
-          dragConstraints={{ left: -2000, right: 0 }}
-          animate={controls}
+          dragElastic={0}
           onDragStart={handleInteractionStart}
           onDragEnd={handleInteractionEnd}
+          onMouseEnter={handleInteractionStart}
+          onMouseLeave={handleInteractionEnd}
         >
           {duplicatedServices.map((service, index) => (
-            <div 
+            <div
               key={`${service.id}-${index}`}
-              className="relative w-[70vw] sm:w-[400px] h-[500px] sm:h-[600px] shrink-0 group overflow-hidden"
+              className="relative w-[70vw] sm:w-[300px] h-[400px] sm:h-[450px] shrink-0 group overflow-hidden"
             >
               <Image
                 src={service.image}

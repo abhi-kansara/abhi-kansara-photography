@@ -28,6 +28,7 @@ export default function PortraitVideos() {
           >
             <VideoPlayer 
               src={videoSources.portraitOne} 
+              poster={videoSources.portraitOnePoster}
               aspectRatio="portrait"
             />
           </motion.div>
@@ -41,6 +42,7 @@ export default function PortraitVideos() {
           >
             <VideoPlayer 
               src={videoSources.portraitTwo} 
+              poster={videoSources.portraitTwoPoster}
               aspectRatio="portrait"
             />
           </motion.div>

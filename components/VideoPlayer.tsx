@@ -9,17 +9,12 @@ interface VideoPlayerProps {
   src: string;
   poster?: string;
   className?: string;
-  aspectRatio?: "video" | "portrait" | "square";
+  aspectRatio?: "portrait" | "video";
 }
 
-export default function VideoPlayer({ 
-  src, 
-  poster, 
-  className,
-  aspectRatio = "video"
-}: VideoPlayerProps) {
+export default function VideoPlayer({ src, poster, aspectRatio = "portrait" }: VideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const togglePlay = () => {
@@ -28,77 +23,57 @@ export default function VideoPlayer({
         videoRef.current.pause();
       } else {
         videoRef.current.play();
+        setHasStarted(true);
       }
       setIsPlaying(!isPlaying);
     }
   };
 
-  const ratioClasses = {
-    video: "aspect-video",
-    portrait: "aspect-9/16",
-    square: "aspect-square",
-  };
-
   return (
     <div 
       className={cn(
-        "relative group cursor-pointer overflow-hidden rounded-lg bg-black/20 border border-white/10 shadow-2xl",
-        ratioClasses[aspectRatio],
-        className
+        "relative w-full overflow-hidden rounded-sm group bg-black/20 border border-white/5 shadow-2xl transition-all duration-500 hover:border-accent-gold/30",
+        aspectRatio === "portrait" ? "aspect-2/3" : "aspect-video"
       )}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={togglePlay}
     >
       <video
         ref={videoRef}
-        src={src}
-        poster={poster}
-        className={cn(
-          "w-full h-full object-cover transition-all duration-700",
-          isPlaying ? "opacity-100" : "opacity-60 scale-105"
-        )}
+        poster={!hasStarted ? poster : undefined}
+        className="h-full w-full object-cover"
         loop
         muted
         playsInline
-      />
+        preload="metadata"
+        onClick={togglePlay}
+      >
+        <source src={src} type="application/vnd.apple.mpegurl" />
+        {/* Fallback for browsers that don't support HLS natively */}
+        <source src={src.replace(".m3u8", ".mp4")} type="video/mp4" />
+      </video>
 
-      {/* Overlay Play/Pause Button */}
-      <AnimatePresence>
-        {(!isPlaying || isHovered) && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            className="absolute inset-0 flex items-center justify-center z-10"
-          >
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-accent-gold/90 backdrop-blur-sm flex items-center justify-center shadow-xl border border-white/20"
-            >
-              {isPlaying ? (
-                <Pause className="w-8 h-8 sm:w-10 sm:h-10 text-black fill-black" strokeWidth={1} />
-              ) : (
-                <Play className="ml-1 w-8 h-8 sm:w-10 sm:h-10 text-black fill-black" strokeWidth={1} />
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Bottom info tooltip */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
-        <motion.span
-          animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 10 }}
-          className="text-[10px] uppercase tracking-[0.3em] font-bold text-white mix-blend-difference"
+      {/* Play Overlay */}
+      <motion.div 
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        initial={false}
+        animate={{ opacity: isPlaying ? 0 : 1 }}
+      >
+        <button 
+          onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+          className="pointer-events-auto h-20 w-20 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white transition-all duration-500 hover:scale-110 hover:bg-accent-gold hover:text-black hover:border-accent-gold group/btn"
         >
-          {isPlaying ? "Pause Film" : "Play Feature"}
-        </motion.span>
-      </div>
+          {isPlaying ? (
+            <Pause className="h-8 w-8 fill-current" />
+          ) : (
+            <Play className="h-8 w-8 ml-1 fill-current transition-transform group-hover/btn:scale-110" />
+          )}
+        </button>
+      </motion.div>
 
-      {/* Decorative gradient overlay */}
-      <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+      {/* Decorative gradient overlay - only show when not playing */}
+      <motion.div 
+        animate={{ opacity: isPlaying ? 0 : 1 }}
+        className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent pointer-events-none" 
+      />
     </div>
   );
 }

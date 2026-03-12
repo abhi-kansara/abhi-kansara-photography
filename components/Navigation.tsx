@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -12,30 +13,29 @@ const navLinks = [
 ];
 
 export default function Navigation() {
+  const pathname = usePathname();
   const { scrollY } = useScroll();
   const [navVisible, setNavVisible] = useState(false);
   const [isAtTop, setIsAtTop] = useState(true);
 
-  // Requirement: 
-  // 1. At absolute top (scroll = 0): Nav pill is hidden. Big logo in center is visible.
-  // 2. Scrolling down: Nav pill appears. Center logo hides.
-  // 3. Scrolling up: Nav pill disappears. 
+  // Determine if we are on a "Light" background page (About/Contact)
+  // On these pages, the header elements should be black (invert-0 or text-black)
+  const isLightPage = pathname === "/about" || pathname === "/contact";
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
 
     if (latest < 50) {
       setIsAtTop(true);
-      setNavVisible(false); // Hide nav pill at top
+      setNavVisible(false);
       return;
     } else {
       setIsAtTop(false);
     }
 
     if (latest > previous && latest > 50) {
-      // Scrolling down -> show nav
       setNavVisible(true);
     } else if (latest < previous) {
-      // Scrolling up -> hide nav
       setNavVisible(false);
     }
   });
@@ -58,7 +58,10 @@ export default function Navigation() {
           src="/Logo.png"
           width={240}
           height={120}
-          className="h-16 w-auto invert mix-blend-difference opacity-90"
+          className={cn(
+            "h-16 w-auto transition-all duration-500 opacity-90",
+            isLightPage ? "invert-0" : "invert mix-blend-difference"
+          )}
           priority
         />
       </motion.div>
@@ -75,19 +78,23 @@ export default function Navigation() {
       >
         <nav
           className={cn(
-            "pointer-events-auto flex items-center justify-between w-full max-w-4xl rounded-full px-8 py-3 transition-all duration-500",
-            "bg-[#1a1a1a]/80 backdrop-blur-md border border-white/10 shadow-2xl"
+            "pointer-events-auto flex items-center justify-between w-full max-w-4xl rounded-full px-8 py-3 transition-all duration-500 shadow-2xl border",
+            isLightPage 
+              ? "bg-white/90 backdrop-blur-md border-black/5" 
+              : "bg-[#1a1a1a]/80 backdrop-blur-md border-white/10"
           )}
         >
           {/* Logo inside nav pill */}
           <Link href="/" className="flex items-center group">
-               {/* <span className="font-serif italic text-accent-gold text-xl tracking-wider">Abhi Kansara</span> */}
                <Image
                  src="/Logo.png"
                  alt="Logo"
                  width={100}
                  height={40}
-                 className="h-8 w-auto invert opacity-80 group-hover:opacity-100 transition-opacity"
+                 className={cn(
+                   "h-8 w-auto transition-all duration-500 opacity-80 group-hover:opacity-100",
+                   isLightPage ? "invert-0" : "invert"
+                 )}
                />
           </Link>
 
@@ -97,7 +104,12 @@ export default function Navigation() {
               <li key={link.name}>
                 <Link
                   href={link.href}
-                  className="text-[10px] uppercase tracking-[0.25em] font-bold text-foreground-muted hover:text-accent-gold transition-colors duration-300"
+                  className={cn(
+                    "text-[10px] uppercase tracking-[0.25em] font-bold transition-all duration-300",
+                    isLightPage 
+                      ? "text-slate-500 hover:text-black" 
+                      : "text-foreground-muted hover:text-accent-gold"
+                  )}
                 >
                   {link.name}
                 </Link>
@@ -108,7 +120,12 @@ export default function Navigation() {
           {/* CTA */}
           <Link
             href="/contact"
-            className="px-6 py-2 rounded-full bg-accent-gold text-black text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white transition-colors duration-300"
+            className={cn(
+              "px-6 py-2 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 shadow-lg",
+              isLightPage
+                ? "bg-black text-white hover:bg-accent-gold"
+                : "bg-accent-gold text-black hover:bg-white"
+            )}
           >
             Inquire
           </Link>
