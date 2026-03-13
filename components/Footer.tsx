@@ -65,7 +65,7 @@ export function Footer() {
               {["Inquire", "Privacy", "Terms"].map((item) => (
                 <Link
                   key={item}
-                  href={item === "Inquire" ? "/contact" : "#"}
+                  href={item === "Inquire" ? "/contact" : item === "Privacy" ? "/privacy" : "/terms"}
                   className="hover:text-accent-gold transition-colors"
                 >
                   {item}

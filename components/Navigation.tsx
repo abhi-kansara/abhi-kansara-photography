@@ -23,7 +23,7 @@ export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Determine if we are on a "Light" background page (About/Contact)
-  const isLightPage = pathname === "/about" || pathname === "/contact";
+  const isLightPage = pathname === "/about" || pathname === "/contact" || pathname === "/privacy" || pathname === "/terms";
 
   // Handle menu toggle with history API for back button support
   const handleMenuToggle = (open: boolean, isNavigating = false) => {
