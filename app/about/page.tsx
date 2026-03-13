@@ -6,6 +6,8 @@ import AnimatedSection from "@/components/AnimatedSection";
 import Image from "next/image";
 import BackButton from "@/components/BackButton";
 
+import { bioData } from "@/lib/bio";
+
 export default function AboutPage() {
   return (
     <main className="flex min-h-screen flex-col bg-accent-ivory text-black selection:bg-accent-gold selection:text-white">
@@ -19,8 +21,8 @@ export default function AboutPage() {
           {/* Portrait Image */}
           <AnimatedSection className="w-full lg:w-5/12 relative aspect-4/5 overflow-hidden rounded-sm" delay={0.1}>
             <Image
-              src="/images/Abhi.jpg"
-              alt="Abhi Kansara - Photographer Portrait"
+              src={bioData.portraitImage}
+              alt={`${bioData.artistName} - Photographer Portrait`}
               fill
               className="object-cover"
               priority
@@ -37,16 +39,16 @@ export default function AboutPage() {
 
             <div className="space-y-6 text-slate-600 text-base sm:text-lg max-w-2xl font-light">
               <p>
-                My approach to wedding photography is deeply rooted in editorial elegance and raw, emotional authenticity. I don't just want to take pictures of what your wedding looked like; I want to capture exactly how it felt.
+                {bioData.intro}
               </p>
               <p>
-                Based in India and traveling worldwide, I’ve spent the last decade documenting love stories for couples who value art, emotion, and cinematic perfection. When I’m not behind the lens, you’ll find me studying classic cinema or chasing the perfect golden hour.
+                {bioData.history}
               </p>
             </div>
 
             <div className="mt-12 flex items-center gap-6">
               <div className="w-16 h-px bg-accent-gold" />
-              <span className="font-serif text-2xl text-slate-900 italic">Abhi Kansara</span>
+              <span className="font-serif text-2xl text-slate-900 italic">{bioData.artistName}</span>
             </div>
           </AnimatedSection>
 

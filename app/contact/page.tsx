@@ -1,15 +1,48 @@
-"use client";
+"use client"
 
+import { useState, useRef } from "react";
 import Navigation from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
 import BackButton from "@/components/BackButton";
+import ContactStatusOverlay from "@/components/ContactStatusOverlay";
+import { sendInquiry } from "@/app/actions/inquiry";
+import { identity } from "@/lib/identity";
 
 export default function ContactPage() {
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
+
+  async function handleSubmit(formData: FormData) {
+    setStatus("loading");
+    
+    try {
+      const result = await sendInquiry(formData);
+      
+      if (result.success) {
+        setStatus("success");
+        formRef.current?.reset();
+      } else {
+        setErrorMessage(result.error || "An error occurred.");
+        setStatus("error");
+      }
+    } catch (err) {
+      setErrorMessage("Something went wrong. Please try again.");
+      setStatus("error");
+    }
+  }
+
   return (
     <main className="flex min-h-screen flex-col bg-accent-ivory text-black selection:bg-accent-gold selection:text-white">
       <Navigation />
       <BackButton />
+
+      <ContactStatusOverlay 
+        status={status} 
+        message={errorMessage} 
+        onClose={() => setStatus("idle")} 
+      />
 
       <div className="flex-1 w-full pt-56 md:pt-64 pb-32 px-6 sm:px-12 flex items-center justify-center">
         <div className="max-w-4xl w-full mx-auto">
@@ -29,12 +62,21 @@ export default function ContactPage() {
 
             {/* Right Side: Form */}
             <AnimatedSection className="lg:col-span-7" delay={0.2}>
-              <form className="flex flex-col gap-10 text-left w-full max-w-xl mx-auto lg:mx-0 p-8 sm:p-12 bg-white shadow-2xl rounded-sm border border-slate-100">
+              <form 
+                ref={formRef}
+                action={handleSubmit}
+                className="flex flex-col gap-10 text-left w-full max-w-xl mx-auto lg:mx-0 p-8 sm:p-12 bg-white shadow-2xl rounded-sm border border-slate-100"
+              >
+                {/* Honeypot field */}
+                <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
+
                 <div className="flex flex-col gap-2">
                   <label htmlFor="name" className="text-xs uppercase tracking-[0.2em] text-slate-500 font-bold">Name(s)</label>
                   <input
                     type="text"
                     id="name"
+                    name="name"
+                    required
                     className="w-full bg-transparent border-b border-slate-200 pb-3 text-slate-900 focus:outline-none focus:border-accent-gold transition-colors duration-300 placeholder:text-slate-300 text-lg"
                     placeholder="John & Jane"
                   />
@@ -45,8 +87,10 @@ export default function ContactPage() {
                   <input
                     type="email"
                     id="email"
+                    name="email"
+                    required
                     className="w-full bg-transparent border-b border-slate-200 pb-3 text-slate-900 focus:outline-none focus:border-accent-gold transition-colors duration-300 placeholder:text-slate-300 text-lg"
-                    placeholder="hello@example.com"
+                    placeholder={identity.email}
                   />
                 </div>
 
@@ -54,6 +98,8 @@ export default function ContactPage() {
                   <label htmlFor="details" className="text-xs uppercase tracking-[0.2em] text-slate-500 font-bold">Event Details</label>
                   <textarea
                     id="details"
+                    name="details"
+                    required
                     rows={4}
                     className="w-full bg-transparent border-b border-slate-200 pb-3 text-slate-900 focus:outline-none focus:border-accent-gold transition-colors duration-300 resize-none placeholder:text-slate-300 text-lg"
                     placeholder="Date, Venue, Number of Guests, Vision..."
@@ -61,11 +107,11 @@ export default function ContactPage() {
                 </div>
 
                 <button
-                  type="button"
-                  className="mt-4 self-stretch sm:self-start px-10 py-4 uppercase tracking-[0.2em] text-xs font-bold text-white bg-slate-900 hover:bg-accent-gold transition-all duration-300 shadow-md hover:shadow-xl"
-                  onClick={(e) => { e.preventDefault(); alert("Form submitted successfully!"); }}
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="mt-4 self-stretch sm:self-start px-10 py-4 uppercase tracking-[0.2em] text-xs font-bold text-white bg-slate-900 hover:bg-accent-gold transition-all duration-300 shadow-md hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send Inquiry
+                  {status === "loading" ? "Sending..." : "Send Inquiry"}
                 </button>
               </form>
             </AnimatedSection>

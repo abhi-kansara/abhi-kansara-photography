@@ -1,29 +1,9 @@
 import Image from "next/image";
 import { Instagram, Linkedin, Mail, Music2 } from "lucide-react";
 import Link from "next/link";
+import { identity } from "@/lib/identity";
 
-const socialLinks = [
-  {
-    name: "Instagram",
-    href: "https://www.instagram.com/abhikansara_photography",
-    icon: Instagram,
-  },
-  {
-    name: "LinkedIn",
-    href: "https://www.linkedin.com/in/abhikansaraphotography",
-    icon: Linkedin,
-  },
-  {
-    name: "Email",
-    href: "mailto:hello@abhikansara.com",
-    icon: Mail,
-  },
-  {
-    name: "Tiktok",
-    href: "#",
-    icon: Music2,
-  },
-];
+const socialLinks = identity.socialLinks;
 
 export function Footer() {
   return (
