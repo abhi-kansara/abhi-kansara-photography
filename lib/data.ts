@@ -89,16 +89,12 @@ export const backgroundImages = [
 ];
 
 export const videoSources = {
-	portraitOne:
-		"https://videos.smugmug.com/PORTFOLIO/Cinematography/i-2ShkqrZ/0/KhXGMH8sqwr7pNbwB5MprsjRwS2bDWgs4vZFLNrCW/SMIL/2ShkqrZ.smil/master.m3u8",
-	portraitOnePoster:
-		"https://photos.smugmug.com/PORTFOLIO/Cinematography/i-2ShkqrZ/0/KG2BCVP9VwC2fbzF4FgM969c59cHJFQKtd7kcMxdP/L/Jeel%20%26%20Parth-L.jpg",
-	portraitTwo:
-		"https://videos.smugmug.com/PORTFOLIO/Cinematography/i-B6CFM8k/0/MTGv5ccBKgWrdW26V67hH7qPsGqnM8xMXrHLFDFqf/SMIL/B6CFM8k.smil/master.m3u8",
-	portraitTwoPoster:
-		"https://photos.smugmug.com/PORTFOLIO/Cinematography/i-B6CFM8k/0/M5dtGfrPv4Phcfp6DnChXcSBkqkK2tB7Cz5ws68z2/X2/Reel%2001-X2.jpg",
-	landscape:
-		"https://videos.smugmug.com/PORTFOLIO/Cinematography/i-dbRpQLs/0/Kx6H3jvjhhsNVnx3rNmdGzfC7dWFKBTqrZvTS3tR6/SMIL/dbRpQLs.smil/master.m3u8",
-	landscapePoster:
-		"https://photos.smugmug.com/PORTFOLIO/Cinematography/i-dbRpQLs/0/KRNw4rsc7rSZVmCnLb8w4GdSx4zxCs2cNFvxwQb9M/X3/2023113019403916-7931054866584463286--1920-X3.jpg",
+	portrait0Poster: "/images/thumbnail/t-portrait-0.png",
+	portrait0: "", 
+	portrait1Poster: "/images/thumbnail/t-portrait-1.jpg",
+	portrait1: "",
+	landscape0Poster: "/images/thumbnail/t-landscape-0.png",
+	landscape0: "",
+	landscape1Poster: "/images/thumbnail/t-landscape-1.png",
+	landscape1: "",
 };

@@ -27,8 +27,8 @@ export default function PortraitVideos() {
             className="w-full max-w-[400px]"
           >
             <VideoPlayer 
-              src={videoSources.portraitOne} 
-              poster={videoSources.portraitOnePoster}
+              src={videoSources.portrait0 || ""} 
+              poster={videoSources.portrait0Poster}
               aspectRatio="portrait"
             />
           </motion.div>
@@ -41,8 +41,8 @@ export default function PortraitVideos() {
             className="w-full max-w-[400px]"
           >
             <VideoPlayer 
-              src={videoSources.portraitTwo} 
-              poster={videoSources.portraitTwoPoster}
+              src={videoSources.portrait1 || ""} 
+              poster={videoSources.portrait1Poster}
               aspectRatio="portrait"
             />
           </motion.div>
