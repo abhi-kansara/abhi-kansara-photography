@@ -17,19 +17,50 @@ export default function LandscapeVideos() {
         </div>
 
         {/* Landscape Video Container */}
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="w-full max-w-[1200px]"
-        >
-          <VideoPlayer 
-            src={videoSources.landscape} 
-            poster={videoSources.landscapePoster}
-            aspectRatio="video"
-          />
-        </motion.div>
+        <div className="flex flex-col gap-12 md:gap-20 w-full justify-center items-center mt-16">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="w-full max-w-[1200px]"
+          >
+            <VideoPlayer
+              src={videoSources.landscape0 || ""}
+              poster={videoSources.landscape0Poster}
+              aspectRatio="video"
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="w-full max-w-[1200px]"
+          >
+            <VideoPlayer
+              src={videoSources.landscape1 || ""}
+              poster={videoSources.landscape1Poster}
+              aspectRatio="video"
+            />
+          </motion.div>
+
+          {/* <span className="text-accent-gold uppercase tracking-[0.2em] text-xs block font-bold">Behind the scenes</span>
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="w-full max-w-300"
+          >
+            <VideoPlayer 
+              src={videoSources.landscape} 
+              poster={videoSources.landscapePoster}
+              aspectRatio="video"
+            />
+          </motion.div> */}
+        </div>
 
       </div>
     </section>
