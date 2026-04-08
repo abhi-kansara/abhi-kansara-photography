@@ -97,8 +97,6 @@ export default function MediaViewer({
 		setIsVideoPlaying(false);
 	}, [currentIndex]);
 
-
-
 	// Auto-hide controls after inactivity
 	const resetControlsTimer = useCallback(() => {
 		setShowControls(true);
@@ -199,8 +197,6 @@ export default function MediaViewer({
 
 	const handleClose = useCallback(() => {
 		setIsClosing(true);
-		// Delay to allow exit animation to begin if needed, 
-		// but onClose usually triggers unmount immediately via parent isOpen
 		onClose();
 	}, [onClose]);
 
