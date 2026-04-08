@@ -75,6 +75,12 @@ export default function MediaViewer({
 			setIsNavigating(false);
 			setIsClosing(false);
 			setShowControls(true);
+			
+			// Reset video state for new session
+			setVideoProgress(0);
+			setVideoDuration(0);
+			setVideoBuffered(0);
+
 			if (autoStartSlideshow) {
 				setIsSlideshow(true);
 			} else {
@@ -82,6 +88,14 @@ export default function MediaViewer({
 			}
 		}
 	}, [isOpen, initialIndex, autoStartSlideshow]);
+
+	// Reset video state when item changes manually
+	useEffect(() => {
+		setVideoProgress(0);
+		setVideoDuration(0);
+		setVideoBuffered(0);
+		setIsVideoPlaying(false);
+	}, [currentIndex]);
 
 
 
@@ -240,12 +254,12 @@ export default function MediaViewer({
 		}
 	};
 
-	const handleVideoProgress = () => {
-		const video = videoRef.current;
+	const handleVideoProgress = (e?: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+		const video = e ? e.currentTarget : videoRef.current;
 		if (video && video.buffered.length > 0) {
 			const bufferedEnd = video.buffered.end(video.buffered.length - 1);
 			const duration = video.duration;
-			if (duration > 0) {
+			if (duration > 0 && duration !== Infinity && !isNaN(duration)) {
 				setVideoBuffered((bufferedEnd / duration) * 100);
 			}
 		}
@@ -263,10 +277,22 @@ export default function MediaViewer({
 	};
 
 	const formatTime = (s: number) => {
+		if (isNaN(s) || s === Infinity) return "0:00";
 		const m = Math.floor(s / 60);
 		const sec = Math.floor(s % 60);
 		return `${m}:${sec.toString().padStart(2, "0")}`;
 	};
+
+	const parseDuration = (durStr?: string) => {
+		if (!durStr) return 0;
+		const parts = durStr.split(":").map(Number);
+		if (parts.length === 2) return parts[0] * 60 + parts[1];
+		if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+		return 0;
+	};
+
+	// Effective duration for the seek bar and UI
+	const effectiveDuration = videoDuration > 0 ? videoDuration : parseDuration(currentItem?.duration);
 
 	// Variants for the directional carousel
 	const variants: Variants = {
@@ -400,7 +426,9 @@ export default function MediaViewer({
 									{isVideo ? (
 										<div className="relative max-w-full max-h-full flex items-center justify-center">
 											<video
-												ref={videoRef}
+												ref={(el) => {
+													if (el) videoRef.current = el;
+												}}
 												src={currentItem.url}
 												poster={currentItem.posterUrl}
 												className="max-h-[80vh] max-w-full rounded-sm object-contain"
@@ -408,18 +436,16 @@ export default function MediaViewer({
 												playsInline
 												muted={isMuted}
 												onClick={toggleVideoPlay}
-												onTimeUpdate={() => {
-													if (videoRef.current) {
-														setVideoProgress(videoRef.current.currentTime);
-													}
+												onTimeUpdate={(e) => {
+													setVideoProgress(e.currentTarget.currentTime);
 												}}
 												onProgress={handleVideoProgress}
-												onLoadedMetadata={() => {
-													if (videoRef.current) {
-														setVideoDuration(videoRef.current.duration);
-														// Initial buffering check
-														handleVideoProgress();
+												onLoadedMetadata={(e) => {
+													const d = e.currentTarget.duration;
+													if (d > 0 && d !== Infinity && !isNaN(d)) {
+														setVideoDuration(d);
 													}
+													handleVideoProgress(e);
 												}}
 											/>
 											{/* Play/Pause overlay for video */}
@@ -485,7 +511,7 @@ export default function MediaViewer({
 						className="absolute bottom-0 inset-x-0 z-10 bg-gradient-to-t from-black/80 to-transparent px-4 sm:px-8 py-4"
 					>
 						{/* Video seek bar */}
-						{isVideo && videoDuration > 0 && (
+						{isVideo && (
 							<div className="flex items-center gap-3 mb-3">
 								<span className="text-white/50 text-[11px] font-mono w-10 text-right">
 									{formatTime(videoProgress)}
@@ -494,29 +520,29 @@ export default function MediaViewer({
 									<input
 										type="range"
 										min={0}
-										max={videoDuration}
+										max={effectiveDuration > 0 ? effectiveDuration : 1}
 										step={0.1}
 										value={videoProgress}
 										onChange={handleSeek}
-										className="w-full h-1 appearance-none bg-white/10 rounded-full outline-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent-gold [&::-webkit-slider-thumb]:cursor-pointer"
+										className="w-full h-1 relative z-20 appearance-none bg-white/10 rounded-full outline-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent-gold [&::-webkit-slider-thumb]:cursor-pointer"
 									/>
 									{/* Buffered Bar */}
 									<div
-										className="absolute left-0 h-1 bg-accent-gold/25 rounded-full pointer-events-none transition-all duration-300"
+										className="absolute left-0 h-1 bg-accent-gold/25 rounded-full pointer-events-none transition-all duration-300 z-10"
 										style={{
 											width: `${videoBuffered}%`,
 										}}
 									/>
 									{/* Current Progress Bar */}
 									<div
-										className="absolute left-0 h-1 bg-accent-gold rounded-full pointer-events-none"
+										className="absolute left-0 h-1 bg-accent-gold rounded-full pointer-events-none z-10"
 										style={{
-											width: `${(videoProgress / videoDuration) * 100}%`,
+											width: `${effectiveDuration > 0 ? (videoProgress / effectiveDuration) * 100 : 0}%`,
 										}}
 									/>
 								</div>
 								<span className="text-white/50 text-[11px] font-mono w-10">
-									{formatTime(videoDuration)}
+									{formatTime(effectiveDuration)}
 								</span>
 							</div>
 						)}
