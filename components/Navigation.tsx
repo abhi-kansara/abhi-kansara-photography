@@ -137,6 +137,7 @@ export default function Navigation() {
 
       {/* Floating Glassmorphism Pill Navbar */}
       <motion.header
+        initial="hidden"
         variants={{
           visible: { y: 0, opacity: 1 },
           hidden: { y: "-100%", opacity: 0 },

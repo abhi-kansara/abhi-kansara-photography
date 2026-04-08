@@ -22,7 +22,7 @@ export default function CinematographyView() {
 	return (
 		<>
 			{/* Hero */}
-			<section className="relative w-full min-h-[50vh] sm:min-h-[60vh] flex items-end px-6 sm:px-12 lg:px-20 pb-16 pt-32">
+			<section className="relative w-full min-h-[50vh] sm:min-h-[60vh] flex items-end px-6 sm:px-12 lg:px-20 pb-16 pt-40">
 				<div className="absolute inset-0 overflow-hidden pointer-events-none">
 					<div className="absolute bottom-1/3 left-1/3 w-96 h-96 rounded-full bg-accent-gold/3 blur-[150px]" />
 				</div>

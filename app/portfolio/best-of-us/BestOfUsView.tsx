@@ -20,7 +20,7 @@ export default function BestOfUsView() {
 	return (
 		<>
 			{/* Hero */}
-			<section className="relative w-full min-h-[50vh] sm:min-h-[60vh] flex items-end px-6 sm:px-12 lg:px-20 pb-16 pt-32">
+			<section className="relative w-full min-h-[50vh] sm:min-h-[60vh] flex items-end px-6 sm:px-12 lg:px-20 pb-16 pt-40">
 				<div className="absolute inset-0 overflow-hidden pointer-events-none">
 					<div className="absolute top-1/3 right-1/4 w-80 h-80 rounded-full bg-accent-gold/3 blur-[150px]" />
 				</div>

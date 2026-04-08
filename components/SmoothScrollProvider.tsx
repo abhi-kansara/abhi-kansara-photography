@@ -1,6 +1,8 @@
 "use client";
 
-import { ReactLenis } from "lenis/react";
+import { ReactLenis, useLenis } from "lenis/react";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 interface SmoothScrollProviderProps {
   children: React.ReactNode;
@@ -9,5 +11,15 @@ interface SmoothScrollProviderProps {
 export default function SmoothScrollProvider({
   children,
 }: SmoothScrollProviderProps) {
+  const pathname = usePathname();
+  const lenis = useLenis();
+
+  // Reset scroll to top on every route change
+  useEffect(() => {
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    }
+  }, [pathname, lenis]);
+
   return <ReactLenis root>{children}</ReactLenis>;
 }
