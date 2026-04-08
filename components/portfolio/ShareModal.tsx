@@ -14,6 +14,7 @@ import {
 	MessageCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useOverlay } from "@/hooks/useOverlay";
 
 // ─────────────────────────────────────────────────────────
 //  Share Modal — Advanced Gallery Sharing
@@ -74,15 +75,8 @@ export default function ShareModal({
 	const mobileUrl = `${galleryUrl}?mobile=true`;
 	const shareText = `Check out "${galleryName}" — captured by Abhi Kansara Photography`;
 
-	// Close on escape
-	useEffect(() => {
-		if (!isOpen) return;
-		const handleKey = (e: KeyboardEvent) => {
-			if (e.key === "Escape") onClose();
-		};
-		window.addEventListener("keydown", handleKey);
-		return () => window.removeEventListener("keydown", handleKey);
-	}, [isOpen, onClose]);
+	// Unified Overlay logic (Scroll Lock, Esc Key, Back Button)
+	useOverlay(isOpen, onClose);
 
 	// Close on outside click
 	const handleBackdropClick = (e: React.MouseEvent) => {

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { DetailedService } from "@/lib/services";
 import { X, ChevronDown, Check, ArrowRight, Star } from "lucide-react";
+import { useOverlay } from "@/hooks/useOverlay";
 
 interface ServiceDetailsModalProps {
   service: DetailedService | null;
@@ -64,26 +65,8 @@ export default function ServiceDetailsModal({
   const scrollRef = useRef<HTMLDivElement>(null);
   const faqAccordion = useAccordion();
 
-  // Lock body scroll when modal is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen]);
-
-  // Close on Escape
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [onClose]);
+  // Unified Overlay logic (Scroll Lock, Esc Key, Back Button)
+  useOverlay(isOpen, onClose);
 
   // Reset scroll on open
   useEffect(() => {
@@ -91,28 +74,6 @@ export default function ServiceDetailsModal({
       scrollRef.current.scrollTop = 0;
     }
   }, [isOpen, service?.id]);
-
-  // Handle Back Button Interception
-  useEffect(() => {
-    if (!isOpen) return;
-
-    // Push state when modal opens
-    window.history.pushState({ modalOpen: true }, "");
-
-    const handlePopState = () => {
-      // If we are popping back, close the modal
-      onClose();
-    };
-
-    window.addEventListener("popstate", handlePopState);
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-      // If modal is unmounting but still has that history entry (e.g. closed via X)
-      if (window.history.state?.modalOpen) {
-        window.history.back();
-      }
-    };
-  }, [isOpen, onClose]);
 
   if (!service) return null;
 

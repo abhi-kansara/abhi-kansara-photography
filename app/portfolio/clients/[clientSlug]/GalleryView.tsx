@@ -19,6 +19,7 @@ interface GalleryViewProps {
 export default function GalleryView({ gallery }: GalleryViewProps) {
 	const [viewerOpen, setViewerOpen] = useState(false);
 	const [viewerIndex, setViewerIndex] = useState(0);
+	const [isSlideshowMode, setIsSlideshowMode] = useState(false);
 	const [shareOpen, setShareOpen] = useState(false);
 
 	// Separate photos and videos
@@ -36,17 +37,20 @@ export default function GalleryView({ gallery }: GalleryViewProps) {
 
 	const handlePhotoClick = (index: number) => {
 		// Index is relative to photos array — same position in allMedia
+		setIsSlideshowMode(false);
 		setViewerIndex(index);
 		setViewerOpen(true);
 	};
 
 	const handleVideoClick = (index: number) => {
 		// Videos start after all photos in allMedia
+		setIsSlideshowMode(false);
 		setViewerIndex(photos.length + index);
 		setViewerOpen(true);
 	};
 
 	const handleSlideshowStart = () => {
+		setIsSlideshowMode(true);
 		setViewerIndex(0);
 		setViewerOpen(true);
 	};
@@ -99,6 +103,7 @@ export default function GalleryView({ gallery }: GalleryViewProps) {
 				items={allMedia}
 				initialIndex={viewerIndex}
 				isOpen={viewerOpen}
+				autoStartSlideshow={isSlideshowMode}
 				onClose={() => setViewerOpen(false)}
 				onShare={() => {
 					setViewerOpen(false);

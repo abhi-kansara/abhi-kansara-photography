@@ -49,3 +49,8 @@ body {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
+/* Scroll Lock Helper */
+.lenis-stopped {
+  overflow: hidden !important;
+}

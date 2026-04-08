@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import type { MediaItem } from "@/lib/portfolio";
 import { cn } from "@/lib/utils";
+import { useOverlay } from "@/hooks/useOverlay";
 
 // ─────────────────────────────────────────────────────────
 //  Premium Media Viewer — Unified Lightbox
@@ -31,6 +32,7 @@ interface MediaViewerProps {
 	onClose: () => void;
 	onShare?: () => void;
 	galleryName?: string;
+	autoStartSlideshow?: boolean;
 }
 
 export default function MediaViewer({
@@ -40,6 +42,7 @@ export default function MediaViewer({
 	onClose,
 	onShare,
 	galleryName,
+	autoStartSlideshow,
 }: MediaViewerProps) {
 	const [[page, direction], setPage] = useState([initialIndex, 0]);
 	const [isNavigating, setIsNavigating] = useState(false);
@@ -53,6 +56,7 @@ export default function MediaViewer({
 	const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 	const [videoProgress, setVideoProgress] = useState(0);
 	const [videoDuration, setVideoDuration] = useState(0);
+	const [videoBuffered, setVideoBuffered] = useState(0);
 	const [showVolumeSlider, setShowVolumeSlider] = useState(false);
 
 	const videoRef = useRef<HTMLVideoElement>(null);
@@ -71,20 +75,15 @@ export default function MediaViewer({
 			setIsNavigating(false);
 			setIsClosing(false);
 			setShowControls(true);
+			if (autoStartSlideshow) {
+				setIsSlideshow(true);
+			} else {
+				setIsSlideshow(false);
+			}
 		}
-	}, [isOpen, initialIndex]);
+	}, [isOpen, initialIndex, autoStartSlideshow]);
 
-	// Lock body scroll when viewer is open
-	useEffect(() => {
-		if (isOpen) {
-			document.body.style.overflow = "hidden";
-		} else {
-			document.body.style.overflow = "unset";
-		}
-		return () => {
-			document.body.style.overflow = "unset";
-		};
-	}, [isOpen]);
+
 
 	// Auto-hide controls after inactivity
 	const resetControlsTimer = useCallback(() => {
@@ -143,9 +142,6 @@ export default function MediaViewer({
 				case "ArrowRight":
 					goNext();
 					break;
-				case "Escape":
-					handleClose();
-					break;
 				case " ":
 					e.preventDefault();
 					if (isVideo) toggleVideoPlay();
@@ -187,12 +183,15 @@ export default function MediaViewer({
 		setPage([ (currentIndex - 1 + items.length) % items.length, -1]);
 	}, [currentIndex, items.length]);
 
-	const handleClose = () => {
+	const handleClose = useCallback(() => {
 		setIsClosing(true);
 		// Delay to allow exit animation to begin if needed, 
 		// but onClose usually triggers unmount immediately via parent isOpen
 		onClose();
-	};
+	}, [onClose]);
+
+	// Unified Overlay logic (Scroll Lock, Esc Key, Back Button)
+	useOverlay(isOpen, handleClose);
 
 	const toggleVideoPlay = () => {
 		if (!videoRef.current) return;
@@ -238,6 +237,17 @@ export default function MediaViewer({
 		if (videoRef.current) {
 			videoRef.current.currentTime = time;
 			setVideoProgress(time);
+		}
+	};
+
+	const handleVideoProgress = () => {
+		const video = videoRef.current;
+		if (video && video.buffered.length > 0) {
+			const bufferedEnd = video.buffered.end(video.buffered.length - 1);
+			const duration = video.duration;
+			if (duration > 0) {
+				setVideoBuffered((bufferedEnd / duration) * 100);
+			}
 		}
 	};
 
@@ -287,18 +297,16 @@ export default function MediaViewer({
 		}),
 	};
 
-	if (!isOpen || !currentItem) return null;
-
 	return (
-		<AnimatePresence>
-			{isOpen && (
+		<AnimatePresence mode="wait">
+			{isOpen && currentItem && (
 				<motion.div
 					ref={containerRef}
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					exit={{ opacity: 0 }}
 					transition={{ duration: 0.4 }}
-					className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-22xl flex flex-col select-none"
+					className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex flex-col select-none"
 					onMouseMove={resetControlsTimer}
 					onClick={(e) => {
 						if (e.target === e.currentTarget) resetControlsTimer();
@@ -405,9 +413,12 @@ export default function MediaViewer({
 														setVideoProgress(videoRef.current.currentTime);
 													}
 												}}
+												onProgress={handleVideoProgress}
 												onLoadedMetadata={() => {
 													if (videoRef.current) {
 														setVideoDuration(videoRef.current.duration);
+														// Initial buffering check
+														handleVideoProgress();
 													}
 												}}
 											/>
@@ -487,8 +498,16 @@ export default function MediaViewer({
 										step={0.1}
 										value={videoProgress}
 										onChange={handleSeek}
-										className="w-full h-1 appearance-none bg-white/20 rounded-full outline-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent-gold [&::-webkit-slider-thumb]:cursor-pointer"
+										className="w-full h-1 appearance-none bg-white/10 rounded-full outline-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent-gold [&::-webkit-slider-thumb]:cursor-pointer"
 									/>
+									{/* Buffered Bar */}
+									<div
+										className="absolute left-0 h-1 bg-accent-gold/25 rounded-full pointer-events-none transition-all duration-300"
+										style={{
+											width: `${videoBuffered}%`,
+										}}
+									/>
+									{/* Current Progress Bar */}
 									<div
 										className="absolute left-0 h-1 bg-accent-gold rounded-full pointer-events-none"
 										style={{
