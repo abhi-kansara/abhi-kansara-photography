@@ -43,7 +43,7 @@ export default async function GalleryPage({
 	}
 
 	return (
-		<main className="flex min-h-screen flex-col bg-background text-foreground">
+		<main className="flex min-h-screen flex-col bg-accent-ivory text-black selection:bg-accent-gold selection:text-white">
 			<Navigation />
 			<BackButton />
 			<GalleryView gallery={gallery} />

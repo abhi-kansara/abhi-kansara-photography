@@ -56,7 +56,7 @@ export default function ClientsHub() {
 							delay: 0.3,
 							ease: [0.16, 1, 0.3, 1],
 						}}
-						className="font-serif text-5xl sm:text-7xl lg:text-9xl text-white font-bold italic leading-[0.9] tracking-tight mb-6"
+						className="font-serif text-5xl sm:text-7xl lg:text-9xl text-slate-900 font-bold italic leading-[0.9] tracking-tight mb-6"
 					>
 						{portfolioPageConfig.heroTitle}
 					</motion.h1>
@@ -65,7 +65,7 @@ export default function ClientsHub() {
 						initial={{ opacity: 0, y: 20 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.6, delay: 0.5 }}
-						className="text-white/40 text-sm sm:text-base max-w-xl leading-relaxed font-light"
+						className="text-slate-600 text-sm sm:text-base max-w-xl leading-relaxed font-light"
 					>
 						{portfolioPageConfig.heroSubtitle}
 					</motion.p>
@@ -79,19 +79,19 @@ export default function ClientsHub() {
 					>
 						<Link
 							href="/portfolio/clients"
-							className="px-5 py-2.5 rounded-full bg-accent-gold/15 border border-accent-gold/30 text-accent-gold text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 hover:bg-accent-gold hover:text-black"
+							className="px-5 py-2.5 rounded-full bg-slate-900 text-white text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 hover:bg-accent-gold hover:text-black"
 						>
 							Client Galleries
 						</Link>
 						<Link
 							href="/portfolio/best-of-us"
-							className="px-5 py-2.5 rounded-full bg-white/5 border border-white/10 text-white/50 text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 hover:border-accent-gold/30 hover:text-accent-gold"
+							className="px-5 py-2.5 rounded-full bg-black/5 border border-black/10 text-slate-500 text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 hover:border-black/20 hover:text-black"
 						>
 							Best of Us
 						</Link>
 						<Link
 							href="/portfolio/cinematography"
-							className="px-5 py-2.5 rounded-full bg-white/5 border border-white/10 text-white/50 text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 hover:border-accent-gold/30 hover:text-accent-gold"
+							className="px-5 py-2.5 rounded-full bg-black/5 border border-black/10 text-slate-500 text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 hover:border-black/20 hover:text-black"
 						>
 							Cinematography
 						</Link>

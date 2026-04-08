@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function BestOfUsPage() {
 	return (
-		<main className="flex min-h-screen flex-col bg-background text-foreground">
+		<main className="flex min-h-screen flex-col bg-accent-ivory text-black selection:bg-accent-gold selection:text-white">
 			<Navigation />
 			<BackButton />
 			<BestOfUsView />

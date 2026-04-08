@@ -159,7 +159,7 @@ export default function GalleryHeader({
 			</div>
 
 			{/* Bottom fade for smooth transition to content */}
-			<div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
+			<div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-accent-ivory to-transparent pointer-events-none" />
 		</section>
 	);
 }

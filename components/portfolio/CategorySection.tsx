@@ -32,11 +32,11 @@ export default function CategorySection({
 				transition={{ duration: 0.7, delay: 0.1 }}
 				className="mb-8 sm:mb-12 flex items-end gap-4"
 			>
-				<h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white font-bold italic tracking-tight leading-none">
+				<h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-slate-900 font-bold italic tracking-tight leading-none">
 					{category}
 				</h2>
-				<div className="flex-1 h-px bg-gradient-to-r from-white/10 to-transparent mb-2" />
-				<span className="text-white/20 text-[10px] uppercase tracking-[0.3em] font-bold mb-2">
+				<div className="flex-1 h-px bg-gradient-to-r from-black/10 to-transparent mb-2" />
+				<span className="text-slate-400 text-[10px] uppercase tracking-[0.3em] font-bold mb-2">
 					{galleries.length} {galleries.length === 1 ? "Gallery" : "Galleries"}
 				</span>
 			</motion.div>
