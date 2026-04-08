@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Play } from "lucide-react";
 import { getCuratedVideos } from "@/lib/portfolio";
 import MediaViewer from "@/components/portfolio/MediaViewer";
+import JustifiedGrid from "@/components/portfolio/JustifiedGrid";
 
 export default function CinematographyView() {
 	const videos = getCuratedVideos();
@@ -86,59 +87,7 @@ export default function CinematographyView() {
 
 			{/* Video Cards Grid */}
 			<section className="px-4 sm:px-8 lg:px-12 pb-20 sm:pb-32 pt-4">
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-					{videos.map((video, idx) => (
-						<motion.div
-							key={video.id}
-							initial={{ opacity: 0, y: 30 }}
-							whileInView={{ opacity: 1, y: 0 }}
-							viewport={{ once: true, margin: "-50px" }}
-							transition={{
-								duration: 0.7,
-								delay: idx * 0.1,
-								ease: [0.16, 1, 0.3, 1],
-							}}
-							onClick={() => handleVideoClick(idx)}
-							className="group cursor-pointer relative overflow-hidden rounded-sm"
-						>
-							<div
-								className="relative overflow-hidden"
-								style={{
-									aspectRatio: `${video.width} / ${video.height}`,
-								}}
-							>
-								<Image
-									src={video.posterUrl || video.url}
-									alt={video.alt || "Video"}
-									fill
-									sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-									className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-110"
-									loading="lazy"
-								/>
-
-								{/* Gradient */}
-								<div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-700" />
-
-								{/* Play button */}
-								<div className="absolute inset-0 flex items-center justify-center">
-									<div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center transition-all duration-500 group-hover:bg-accent-gold group-hover:border-accent-gold group-hover:scale-110">
-										<Play className="h-7 w-7 sm:h-8 sm:w-8 text-white fill-white ml-1 transition-colors group-hover:text-black group-hover:fill-black" />
-									</div>
-								</div>
-
-								{/* Duration */}
-								{video.duration && (
-									<span className="absolute bottom-4 right-4 text-[11px] font-mono tracking-wider bg-black/60 backdrop-blur-sm text-white/90 px-3 py-1 rounded-full">
-										{video.duration}
-									</span>
-								)}
-
-								{/* Hover border glow */}
-								<div className="absolute inset-0 border border-white/0 group-hover:border-accent-gold/30 transition-all duration-700 rounded-sm" />
-							</div>
-						</motion.div>
-					))}
-				</div>
+				<JustifiedGrid items={videos} onItemClick={handleVideoClick} />
 			</section>
 
 			{/* Lightbox */}

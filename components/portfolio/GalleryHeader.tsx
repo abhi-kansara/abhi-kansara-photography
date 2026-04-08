@@ -60,13 +60,13 @@ export default function GalleryHeader({
 			<div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent" />
 
 			{/* Content */}
-			<div className="absolute inset-0 flex flex-col justify-between px-6 sm:px-12 lg:px-20 py-8 sm:py-12">
+			<div className="absolute inset-0 flex flex-col justify-between px-6 sm:px-12 lg:px-20 py-8 sm:py-12 z-10">
 				{/* Breadcrumbs */}
 				<motion.nav
 					initial={{ opacity: 0, y: -10 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.6, delay: 0.2 }}
-					className="flex items-center gap-2 mt-20 sm:mt-24"
+					className="flex items-center gap-2 mt-32 sm:mt-36"
 				>
 					{breadcrumbs.map((crumb, idx) => (
 						<span key={crumb.href} className="flex items-center gap-2">

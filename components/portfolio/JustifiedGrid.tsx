@@ -138,7 +138,6 @@ export default function JustifiedGrid({
 									flexShrink: 0,
 								}}
 								onClick={() => handleClick(item.rowIndex)}
-								whileHover={{ scale: 1.02 }}
 								transition={{
 									scale: { duration: 0.3, ease: "easeOut" },
 									layout: {
@@ -153,7 +152,7 @@ export default function JustifiedGrid({
 										alt={item.alt || ""}
 										fill
 										sizes={`${Math.round(itemWidth)}px`}
-										className="object-cover transition-transform duration-700 group-hover:scale-105"
+										className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
 										loading="lazy"
 									/>
 								) : (
@@ -163,7 +162,7 @@ export default function JustifiedGrid({
 											alt={item.alt || "Video"}
 											fill
 											sizes={`${Math.round(itemWidth)}px`}
-											className="object-cover transition-transform duration-700 group-hover:scale-105"
+											className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
 											loading="lazy"
 										/>
 										{/* Video indicator */}

@@ -429,7 +429,7 @@ export default function MediaViewer({
 								<span className="text-white/50 text-[11px] font-mono w-10 text-right">
 									{formatTime(videoProgress)}
 								</span>
-								<div className="flex-1 relative group/seek">
+								<div className="flex-1 relative group/seek flex items-center">
 									<input
 										type="range"
 										min={0}
@@ -440,7 +440,7 @@ export default function MediaViewer({
 										className="w-full h-1 appearance-none bg-white/20 rounded-full outline-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent-gold [&::-webkit-slider-thumb]:cursor-pointer"
 									/>
 									<div
-										className="absolute top-0 left-0 h-1 bg-accent-gold rounded-full pointer-events-none"
+										className="absolute left-0 h-1 bg-accent-gold rounded-full pointer-events-none"
 										style={{
 											width: `${(videoProgress / videoDuration) * 100}%`,
 										}}
@@ -491,7 +491,7 @@ export default function MediaViewer({
 													initial={{ opacity: 0, width: 0 }}
 													animate={{ opacity: 1, width: 80 }}
 													exit={{ opacity: 0, width: 0 }}
-													className="ml-2 overflow-hidden"
+													className="relative flex items-center ml-2 overflow-hidden h-10"
 												>
 													<input
 														type="range"
@@ -502,7 +502,13 @@ export default function MediaViewer({
 														onChange={(e) =>
 															handleVolumeChange(Number(e.target.value))
 														}
-														className="w-full h-1 appearance-none bg-white/20 rounded-full outline-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent-gold [&::-webkit-slider-thumb]:cursor-pointer"
+														className="z-10 w-full h-1 appearance-none bg-white/20 rounded-full outline-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent-gold [&::-webkit-slider-thumb]:cursor-pointer"
+													/>
+													<div
+														className="absolute left-0 h-1 bg-accent-gold rounded-full pointer-events-none"
+														style={{
+															width: `${(isMuted ? 0 : volume) * 100}%`,
+														}}
 													/>
 												</motion.div>
 											)}
