@@ -60,6 +60,13 @@ const socialPlatforms = [
 	},
 ];
 
+interface ShareModalProps {
+	isOpen: boolean;
+	onClose: () => void;
+	galleryName: string;
+	gallerySlug: string;
+}
+
 export default function ShareModal({
 	isOpen,
 	onClose,

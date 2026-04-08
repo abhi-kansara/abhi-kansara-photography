@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import Image from "next/image";
 import {
 	X,
@@ -269,7 +269,7 @@ export default function MediaViewer({
 	};
 
 	// Variants for the directional carousel
-	const variants = {
+	const variants: Variants = {
 		enter: (direction: number) => ({
 			x: direction > 0 ? "20%" : direction < 0 ? "-20%" : 0,
 			opacity: 0,
@@ -445,7 +445,7 @@ export default function MediaViewer({
 											className="relative max-h-[85vh] max-w-full"
 											transition={{
 												duration: 0.6,
-												ease: [0.16, 1, 0.3, 1],
+												ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
 											}}
 										>
 											<Image
