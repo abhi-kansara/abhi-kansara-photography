@@ -11,6 +11,10 @@ The core vision is twofold:
 1. **Headless CMS & Dynamic Control:** Allow the admin (Abhi) to seamlessly control the public-facing site (featured images, carousels, text content) without touching code.
 2. **Unlimited Media & Client Portals:** Leverage a third-party, specialized media host (**SmugMug**) as the single source of truth for high-res photo storage, enabling private client galleries, easy sharing, and direct downloads.
 
+*P.S. Work & Gallery Update:* The vision now strictly includes maintaining the cinematic, immersive portfolio masonry grid and dynamic overlays when fetching images from SmugMug.
+
+*P.S. Service Update:* The CMS must now also support the highly dynamic deep-dive `ServiceDetailsModal`, handling complex nested objects (packages, add-ons, step-by-step processes, and FAQS) without sacrificing performance.
+
 ---
 
 # 2. Recommended Technology Stack
@@ -33,6 +37,10 @@ We are building a decoupled, headless architecture ensuring maximum performance 
 - **Photo Storage & Delivery:** **SmugMug API** (Unlimited storage, high-tier image compression/delivery, watermarking).
 - **Static Assets Database (Optional):** Azure Blob Storage or AWS S3 (for lightweight site assets like logos or specific UI icons).
 
+*P.S. Work & Gallery Update:* The EF Core database must support storing classification metadata (e.g., aspect ratio, portrait/landscape tags) synced from SmugMug to feed the intelligent Bento grid UI.
+
+*P.S. Service Update:* The database schema needs to support complex relational structures (e.g., array of testimonials, packages) to feed the Next.js frontend seamlessly.
+
 ---
 
 # 3. Dynamic Site Management (Headless CMS)
@@ -46,6 +54,10 @@ The public portfolio should no longer require code commits to change. The .NET b
 - **Contact Info & Bios:** Editable text blobs stored in the SQL database.
 
 *Dev Note:* Next.js will use Next.js cache tags (e.g., `revalidateTag('site-config')`). When the admin updates the carousel via the backend, the .NET backend will trigger a Next.js revalidation webhook to instantly update the static public page without a full rebuild.
+
+*P.S. Work & Gallery Update:* Admin controls need a tagging system mapping SmugMug images to correct aspect ratios and orientation for the Bento grid logic.
+
+*P.S. Service Update:* The CMS interface must allow editing nested service fields (Investment details, multiple packages, duration, icon names) ensuring the highly animated UI elements always have content to render.
 
 ---
 
@@ -61,6 +73,10 @@ It's financially optimal for photographers. Building custom AWS S3/CloudFront pi
 2. **Metadata Synchronization:** The admin will organize photos in SmugMug (e.g., `2025 > Weddings > Client_Name`). The .NET backend will run a background worker (or manual sync button) to pull this folder structure metadata and save it in the local SQL database.
 3. **Fetching Photos:** When a user visits an album, the Next.js frontend asks the .NET backend for the photo URLs. The .NET backend uses the cached SmugMug CDN links to serve the images instantly.
 
+*P.S. Work & Gallery Update:* The background worker must fetch not just URLs, but dimensional metadata to drive the dynamic landscape/portrait Next.js components cleanly.
+
+*P.S. Service Update:* SmugMug's role is strictly media; textual service data remains in SQL. However, cover images for services will still rely on the SmugMug CDN setup.
+
 ---
 
 # 5. The Client Portal Vault
@@ -75,6 +91,10 @@ This is the cornerstone feature for client turn-over. Instead of sending generic
   - Clients can click a "Download All High-Res" button. 
   - The .NET backend dynamically asks the SmugMug API to generate a secure, temporary download ZIP link, passing it back to the frontend.
   - Clients can copy a "Share Album" link to send to family.
+
+*P.S. Work & Gallery Update:* The client portal viewing experience must mirror the premium, lag-free cinematic modal overlays developed for the public gallery.
+
+*P.S. Service Update:* Client portal should theoretically reflect any custom packages or add-ons chosen during booking, maintaining the premium textual layout styling used in the public service page.
 
 ---
 
@@ -115,3 +135,7 @@ To build this systematically, we will follow a phased agile approach.
 - Host the Database on Azure SQL or AWS RDS.
 - Deploy Next.js to Vercel (already existing).
 - E2E testing using Playwright.
+
+*P.S. Work & Gallery Update:* Phase 4 (SmugMug Bridge) must allocate time for Exif/aspect ratio extraction logic.
+
+*P.S. Service Update:* Phase 1 (Schema) must account for complex relational mapping (1-to-many) for Service entities and their nested arrays (Testimonials, FAQs, Process steps) immediately.

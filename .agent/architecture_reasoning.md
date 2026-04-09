@@ -9,6 +9,10 @@ Welcome to the backend of the planning phase. When junior developers build a pro
 
 Every technical choice in `development_plan.md` was made by weighing **Cost, Performance, Maintainability, and Security**. This document explains *why* we chose this specific path for the Abhi Kansara Photography platform, *what* the alternatives were, and *why* we rejected them.
 
+*P.S. Work & Gallery Update:* Constant evaluation is needed. The new Bento grid demanded specific dimensional awareness from our data layer that a basic CMS doesn't provide.
+
+*P.S. Service Update:* The highly nested, animated service modals stress test the UI, validating our choice to keep the frontend incredibly performant and separated from the database load.
+
 ---
 
 # 2. The Big Picture: Why a "Headless CMS" Architecture?
@@ -23,6 +27,10 @@ Every technical choice in `development_plan.md` was made by weighing **Cost, Per
 **Alternative: WordPress / Monolithic Architecture (PHP/Laravel)**
 - *Why we rejected it:* WordPress is great for simple blogs, but it's bloated, slow, and a massive security target. Monoliths couple the frontend and backend together. If you want to change the frontend framework later, you have to tear the whole house down. We want Ferrari-level performance for the photos, which a monolith struggles to deliver without heavy caching gymnastics.
 
+*P.S. Work & Gallery Update:* A headless approach lets us use Framer Motion and heavy client-side layout logic (Bento grid) freely while the backend fetches heavy image metadata independently.
+
+*P.S. Service Update:* Decoupling allows our Next.js frontend to maintain premium modal experiences (like the complex modal scroll locks and synchronized blurs) without server-side rendering logic confusing the DOM state.
+
 ---
 
 # 3. Frontend: Why Next.js 16 (App Router)?
@@ -36,6 +44,10 @@ Every technical choice in `development_plan.md` was made by weighing **Cost, Per
 **Alternative: Pure React (Vite) or Vue.js**
 - *Why we rejected Vite/React SPA:* Terrible for SEO out of the box. Users stare at a loading spinner while the JavaScript bundle downloads.
 - *Why we rejected Vue:* Vue is fantastic, but React has a vastly larger ecosystem for complex animation libraries (like Framer Motion) which we are already using to give the site that "premium" feel.
+
+*P.S. Work & Gallery Update:* Next.js's `<Image />` component combined with RSCs is the only sane way to fetch and render a masonry layout of dozens of SmugMug urls without tanking Core Web Vitals.
+
+*P.S. Service Update:* Server Components allow us to pre-fetch the complex service JSON (packages, process steps) instantly on the server, while the client components handle the scroll tickers and intersection observers.
 
 ---
 
@@ -52,6 +64,10 @@ Every technical choice in `development_plan.md` was made by weighing **Cost, Per
 - *Why we rejected Node.js (Express):* Express is too flexible. For a junior, this sounds great. For a team, it means spaghetti code. NestJS is better, but .NET has a clearer, more enforced standard for enterprise patterns (Dependency Injection, Interfaces).
 - *Why we rejected Python:* Slower runtime performance compared to compiled C#.
 
+*P.S. Work & Gallery Update:* .NET's strongly typed nature guarantees that when the frontend expects an image array with `width` and `height`, it strictly receives it, preventing UI grid breaks.
+
+*P.S. Service Update:* EF Core's capability to cleanly handle relational includes makes fetching the highly nested Service object simple, reliable, and performant.
+
 ---
 
 # 5. The Heavy Lifter: Why SmugMug API?
@@ -66,6 +82,10 @@ Every technical choice in `development_plan.md` was made by weighing **Cost, Per
 **Alternative: AWS S3 + CloudFront / Azure Blob Storage**
 - *Why we rejected it:* Cost. Only use S3 for small, predictable assets (like PDF contracts, site logos, user avatars). Never use S3 to store and serve terabytes of 4K photos to public users unless you have massive funding.
 
+*P.S. Work & Gallery Update:* SmugMug APIs often return various image sizes. We rely on SmugMug endpoints to serve optimized breakpoints rather than transforming them ourselves.
+
+*P.S. Service Update:* Storing high-res gallery images for the service portfolios securely while displaying them dynamically in the complex UI without hosting cost panic.
+
 ---
 
 # 6. Database & Auth: PostgreSQL & ASP.NET Identity
@@ -79,6 +99,10 @@ Every technical choice in `development_plan.md` was made by weighing **Cost, Per
 **Alternative: MongoDB (NoSQL) & Firebase Auth**
 - *Why we rejected MongoDB:* NoSQL is for unstructured, rapidly changing data (like IoT sensors or chat messages). Our data is highly structured. Using NoSQL here would require writing complicated application-level code to ensure data consistency.
 - *Why we rejected Firebase:* Vendor lock-in. If Google changes Firebase pricing, we are trapped. Our SQL + Identity setup can be hosted anywhere (AWS, Azure, DigitalOcean).
+
+*P.S. Work & Gallery Update:* PostgreSQL handles JSONB structures perfectly, allowing us to store raw SmugMug API payload metadata efficiently if we don't want to map every Exif property to a column.
+
+*P.S. Service Update:* Relational Postgres shines when a single `Service` is linked to multiple `Package` rows, `Testimonial` rows, and `FAQ` rows, keeping the data perfectly structured unlike a flat generic CMS file.
 
 ---
 
@@ -116,3 +140,7 @@ Ask yourself: "What happens when SmugMug's API goes down?"
 Answer: "Our .NET backend catches the timeout error, and serves a beautiful, polite fallback UI on Next.js instead of crashing the whole app."
 
 **Summary:** Engineering is about managing trade-offs. You trade the simplicity of a WordPress monolith for the supreme performance and scalability of a decoupled Next.js + .NET stack. You trade the ultimate control of AWS S3 for the financial safety of SmugMug. *That* is how you architect.
+
+*P.S. Work & Gallery Update:* The Bento grid is a great example of planning constraints: we know image fetching is slow, so we designed a UI that gracefully reveals itself as assets load.
+
+*P.S. Service Update:* The Service Page update proves the rule of anticipating failure: we structured the data mapping so even if an addon array is empty, the premium styling doesn't break.
