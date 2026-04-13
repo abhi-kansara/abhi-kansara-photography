@@ -41,7 +41,8 @@ function computeRows(
 	let globalIndex = 0;
 
 	for (const item of items) {
-		const aspect = item.width / item.height;
+		const aspect =
+			item.width && item.height ? item.width / item.height : 1.5; // Default 3:2 landscape
 		currentRow.push({ ...item, rowIndex: globalIndex });
 		currentAspectSum += aspect;
 		globalIndex++;
@@ -124,7 +125,8 @@ export default function JustifiedGrid({
 					style={{ gap, marginBottom: gap }}
 				>
 					{row.items.map((item) => {
-						const aspect = item.width / item.height;
+						const aspect =
+							item.width && item.height ? item.width / item.height : 1.5; // Default 3:2 landscape
 						const itemWidth = aspect * row.height;
 
 						return (

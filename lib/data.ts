@@ -2,14 +2,6 @@ const R2_URL = "https://pub-576c3f4676204ddb823a5e2e2e27435e.r2.dev";
 
 // Centralized Data Layer
 
-export interface PortfolioImage {
-	id: string;
-	src: string;
-	title?: string;
-	category?: string;
-	span?: string;
-}
-
 export interface Service {
 	id: string;
 	title: string;
@@ -34,50 +26,6 @@ export const servicesData: Service[] = [
 	{ id: "s13", title: "Baby Shower", image: `${R2_URL}/images/work/work13.webp` },
 ];
 
-export const portfolioImages: PortfolioImage[] = [
-	{
-		id: "p1",
-		title: "Aaina & Daideep",
-		category: "Wedding",
-		src: `${R2_URL}/images/feature/feature0.webp`,
-		span: "row-span-2 col-span-1",
-	},
-	{
-		id: "p2",
-		title: "Sapan & Sajnee",
-		category: "Pre-Wedding",
-		src: `${R2_URL}/images/feature/feature1.webp`,
-		span: "col-span-1 row-span-1",
-	},
-	{
-		id: "p3",
-		title: "Aditya Gadhvi",
-		category: "Events",
-		src: `${R2_URL}/images/feature/feature2.webp`,
-		span: "col-span-1 row-span-1",
-	},
-	{
-		id: "p4",
-		title: "Vidhi & Kashyap",
-		category: "Baby Shower",
-		src: `${R2_URL}/images/feature/feature3.webp`,
-		span: "col-span-2 row-span-2",
-	},
-	{
-		id: "p5",
-		title: "MV",
-		category: "Product",
-		src: `${R2_URL}/images/feature/feature4.webp`,
-		span: "col-span-1 row-span-1",
-	},
-	{
-		id: "p6",
-		title: "Vidhi & Rushi",
-		category: "Editorial",
-		src: `${R2_URL}/images/feature/feature5.webp`,
-		span: "col-span-1 row-span-1",
-	},
-];
 
 export const backgroundImages = [
 	`${R2_URL}/images/bg/bg1.webp`,

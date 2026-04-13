@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { getCuratedPhotos } from "@/lib/portfolio";
+import { bestOfUsPhotos } from "@/lib/best-of-us";
 import JustifiedGrid from "@/components/portfolio/JustifiedGrid";
 import MediaViewer from "@/components/portfolio/MediaViewer";
 
 export default function BestOfUsView() {
-	const photos = getCuratedPhotos();
+	const photos = bestOfUsPhotos;
 	const [viewerOpen, setViewerOpen] = useState(false);
 	const [viewerIndex, setViewerIndex] = useState(0);
 

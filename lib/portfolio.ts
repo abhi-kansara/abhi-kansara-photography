@@ -20,8 +20,8 @@ export interface MediaItem {
 	id: string;
 	type: "photo" | "video";
 	url: string;
-	width: number; // Original width — essential for justified grid math
-	height: number; // Original height — essential for justified grid math
+	width?: number; // Optional — grid will default to 3:2 if missing
+	height?: number; // Optional — grid will default to 3:2 if missing
 	alt?: string; // Accessibility alt text
 	posterUrl?: string; // For video thumbnails
 	hlsUrl?: string; // HLS stream URL for videos

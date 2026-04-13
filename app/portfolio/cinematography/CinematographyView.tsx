@@ -5,12 +5,12 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { Play } from "lucide-react";
-import { getCuratedVideos } from "@/lib/portfolio";
+import { cinematographyVideos } from "@/lib/cinematography";
 import MediaViewer from "@/components/portfolio/MediaViewer";
 import JustifiedGrid from "@/components/portfolio/JustifiedGrid";
 
 export default function CinematographyView() {
-	const videos = getCuratedVideos();
+	const videos = cinematographyVideos;
 	const [viewerOpen, setViewerOpen] = useState(false);
 	const [viewerIndex, setViewerIndex] = useState(0);
 
