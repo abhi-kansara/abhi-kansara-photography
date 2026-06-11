@@ -185,10 +185,15 @@ public static class DataSeeder
 
     private static async Task SeedPageConfigsAsync(ApplicationDbContext context, ILogger logger)
     {
-        if (await context.PageConfigs.AnyAsync()) return;
-        var configs = new List<PageConfig>
+        var existingKeys = await context.PageConfigs
+            .Select(p => p.PageKey)
+            .ToListAsync();
+
+        var configsToSeed = new List<PageConfig>();
+
+        if (!existingKeys.Contains("services"))
         {
-            new PageConfig
+            configsToSeed.Add(new PageConfig
             {
                 PageKey = "services",
                 HeroTagline = "Experiences",
@@ -196,17 +201,26 @@ public static class DataSeeder
                 HeroSubtitle = "Every frame tells a story.",
                 CtaText = "Book a Consultation",
                 CtaLink = "/contact"
-            },
-            new PageConfig
+            });
+        }
+
+        if (!existingKeys.Contains("portfolio"))
+        {
+            configsToSeed.Add(new PageConfig
             {
                 PageKey = "portfolio",
                 HeroTagline = "Portfolio",
                 HeroTitle = "Our Work",
                 HeroSubtitle = "A curated collection of moments and stories."
-            }
-        };
-        context.PageConfigs.AddRange(configs);
-        await context.SaveChangesAsync();
+            });
+        }
+
+        if (configsToSeed.Any())
+        {
+            context.PageConfigs.AddRange(configsToSeed);
+            await context.SaveChangesAsync();
+            logger.LogInformation("Seeded {Count} page configs.", configsToSeed.Count);
+        }
     }
 
     private static async Task SeedCarouselItemsAsync(ApplicationDbContext context, ILogger logger)
